@@ -1,28 +1,34 @@
 node {
     
 	stage('Preparation (Checking out)') {
-		checkout([$class: 'GitSCM', branches: [[name: '*/kiryushin']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/BrygoQQ/mntlab-pipeline']]])
+		git branch: 'akiryushin', url: 'https://github.com/BrygoQQ/mntlab-pipeline'
 	}
 	
 	stage('Building code') {
-		sh "gradle build"
+		
+			sh "/opt/gradle/bin/gradle wrapper"
+			sh "./gradlew --info build"
+		
 	}
 	
 	stage('Testing code') {
-		parallel 
-		firstBranch: {
+		parallel firstBranch: {
 			stage('Unit Tests') {
-				sh "gradle test"
+				withGradle {
+					sh "./gradlew test"
+				}
 			}
-    	}, 
-		secondBranch: {
+    	}, secondBranch: {
 			stage('Jacoco Tests') {
-				sh "gradle jacocoTestReport"
+				withGradle {
+					sh "./gradlew jacocoTestReport"
+				}
 			}
-		},
-		thirdBranch: {
+		}, thirdBranch: {
 			stage('Cucumber Tests') {
-				sh "gradle cucumber"
+				withGradle {
+					sh "./gradlew cucumber"
+				}
 			}
 		}
 	}
