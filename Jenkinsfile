@@ -1,13 +1,12 @@
 node {
-    
+    tool name: '3.3', type: 'gradle'
+	tool name: 'JDK 8', type: 'jdk'
 	stage('Preparation (Checking out)') {
-		git branch: 'akiryushin', url: 'https://github.com/BrygoQQ/mntlab-pipeline'
+		checkout([$class: 'GitSCM', branches: [[name: '*/akiryushin']], userRemoteConfigs: [[url: 'https://github.com/BrygoQQ/mntlab-pipeline.git']]])
 	}
 	
 	stage('Building code') {
-		
-			sh "/opt/gradle/bin/gradle wrapper"
-			sh "./gradlew --info build"
+		sh "./gradlew build"
 		
 	}
 	
