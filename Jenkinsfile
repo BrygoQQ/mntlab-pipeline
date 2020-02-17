@@ -1,4 +1,5 @@
 node {
+	
 	env.GRADLE="${tool name: '3.3', type: 'gradle'}"
 	env.PATH="${env.GRADLE}/bin:${env.PATH}"
 	
@@ -14,21 +15,15 @@ node {
 	stage('Testing code') {
 		parallel firstBranch: {
 			stage('Unit Tests') {
-				withGradle {
-					sh "gradle test"
-				}
+				sh "gradle test"
 			}
     	}, secondBranch: {
 			stage('Jacoco Tests') {
-				withGradle {
-					sh "gradle jacocoTestReport"
-				}
+				sh "gradle jacocoTestReport"
 			}
 		}, thirdBranch: {
 			stage('Cucumber Tests') {
-				withGradle {
-					sh "gradle cucumber"
-				}
+				sh "gradle cucumber"
 			}
 		}
 	}
