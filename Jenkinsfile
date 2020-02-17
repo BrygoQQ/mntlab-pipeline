@@ -5,6 +5,7 @@ node {
 	
 	stage('Preparation (Checking out)') {
 		checkout([$class: 'GitSCM', branches: [[name: '*/akiryushin']], userRemoteConfigs: [[url: 'https://github.com/BrygoQQ/mntlab-pipeline.git']]])
+		sh "echo $PATH"
 	}
 	
 	stage('Building code') {
@@ -33,8 +34,8 @@ node {
 	}
 	
 	stage('Packaging and Publish results') {
-		sh label: '', script: 'tar -xzf akiryushin_dsl_script.tar.gz jobs.groovy'
-		sh label: '', script: 'tar -czf pipeline-akiryushin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/gradle-simple.jar'
+		sh "tar -xzf akiryushin_dsl_script.tar.gz jobs.groovy"
+		sh "tar -czf pipeline-akiryushin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile build/libs/gradle-simple.jar"
 		archiveArtifacts 'pipeline-akiryushin-${BUILD_NUMBER}.tar.gz'
 	}
 	
