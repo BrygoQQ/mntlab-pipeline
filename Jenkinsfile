@@ -5,7 +5,6 @@ node {
 	
 	stage('Preparation (Checking out)') {
 		checkout([$class: 'GitSCM', branches: [[name: '*/akiryushin']], userRemoteConfigs: [[url: 'https://github.com/BrygoQQ/mntlab-pipeline.git']]])
-		sh "echo $PATH"
 	}
 	
 	stage('Building code') {
