@@ -1,5 +1,5 @@
 node {
-	env.GRADLE="${tool name: '5.6', type: 'gradle'}"
+	env.GRADLE="${tool name: '3.3', type: 'gradle'}"
 	env.PATH="${env.GRADLE}/bin:${env.PATH}"
 	
 	stage('Preparation (Checking out)') {
